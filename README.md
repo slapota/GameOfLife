@@ -1,0 +1,2 @@
+# GameOfLife
+ simulator cikanu lmao
