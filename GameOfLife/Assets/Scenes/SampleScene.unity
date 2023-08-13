@@ -246,8 +246,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tile: {fileID: 6286235615317846183, guid: 91b7e0b7fb34b4c47b8967cf366fffbe, type: 3}
   grid: {fileID: 1805299694}
-  scale: 90
-  size: 10
+  scale: 180
+  size: 5
 --- !u!4 &990994064
 Transform:
   m_ObjectHideFlags: 0

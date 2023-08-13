@@ -16,7 +16,7 @@ public class God : MonoBehaviour
     {
         tiles = new Tile[scale, scale];
         //Load();
-        StartCoroutine(Spawn());
+        StartCoroutine(Click());
     }
     void Load()
     {
@@ -33,18 +33,23 @@ public class God : MonoBehaviour
             }
         }
     }
-    IEnumerator Spawn()
+    IEnumerator Click()
     {
         yield return new WaitUntil(()=>Input.GetMouseButtonDown(0));
         Vector2 pos = transform.InverseTransformPoint(Input.mousePosition);
         pos = new Vector2(((int)Mathf.Round(pos.x / size)) * size, ((int)Mathf.Round(pos.y / size)) * size);
+        Spawn(pos, new Vector2((pos.x / size) + (scale / 2), (pos.y / size) + (scale / 2)));
+        yield return new WaitForSecondsRealtime(0.1f);
+        StartCoroutine(Click());
+    }
+    public void Spawn(Vector2 pos, Vector2 slot)
+    {
         Tile newTile = Instantiate(tile, grid);
         newTile.GetComponent<RectTransform>().sizeDelta = new Vector2(size, size);
         newTile.transform.localPosition = pos;
         newTile.god = this;
         try
         {
-            Vector2 slot = new Vector2((pos.x / size) + (scale / 2), (pos.y / size) + (scale / 2));
             if (tiles[(int)slot.x, (int)slot.y] != null)
             {
                 Destroy(newTile.gameObject);
@@ -52,15 +57,13 @@ public class God : MonoBehaviour
             else
             {
                 tiles[(int)slot.x, (int)slot.y] = newTile;
-                Debug.Log(slot);
+                newTile.x = (int)slot.x;
+                newTile.y = (int)slot.y;
             }
         }
         catch
         {
             Destroy(newTile.gameObject);
-            Debug.Log("poser cikán");
         }
-        yield return new WaitForSecondsRealtime(0.1f);
-        StartCoroutine(Spawn());
     }
 }
